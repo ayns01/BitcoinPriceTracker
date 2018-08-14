@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="16dp"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp"
+    android:paddingTop="16dp"
+    android:background="@color/bkgndColour"
+    tools:context=".MainActivity">
+
+    <TextView
+        android:id="@+id/criteriaBtc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="186dp"
+        android:fontFamily="@font/roboto_light"
+        android:text="@string/criteriaBtc"
+        android:textColor="@color/fontColour"
+        android:textSize="14sp" />
+    <TextView
+        android:id="@+id/priceLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="215dp"
+        android:fontFamily="@font/roboto_bold"
+        android:text="@string/btc"
+        android:textColor="@color/fontColour"
+        android:textSize="36sp" />
+
+    <ImageView
+        android:id="@+id/bitImage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="50dp"
+        app:srcCompat="@drawable/bit"
+        android:contentDescription="@string/imageview_desc"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="290dp"
+        android:gravity="center_vertical|center_horizontal"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:fontFamily="@font/roboto_light"
+            android:text="@string/base"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="@color/fontColour"
+            android:textSize="18sp" />
+
+        <Spinner
+            android:id="@+id/currency_spinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:dropDownSelector="@color/fontColour"
+            android:gravity="center_horizontal"
+            android:spinnerMode="dropdown" />
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="180dp"
+        android:gravity="center_vertical|center_horizontal"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/weekly"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:text="@string/weekly"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="@color/fontColour"
+            android:textSize="20sp"
+            android:fontFamily="@font/roboto_light"/>
+
+        <TextView
+            android:id="@+id/weekly_btc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:text="@string/weekly_btc"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="@color/fontColour"
+            android:textSize="20sp"
+            android:fontFamily="@font/roboto_light"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="140dp"
+        android:gravity="center_vertical|center_horizontal"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/monthly"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:text="@string/monthly"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="@color/fontColour"
+            android:textSize="20sp"
+            android:fontFamily="@font/roboto_light"/>
+
+        <TextView
+            android:id="@+id/monthly_btc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:text="@string/monthly_btc"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="@color/fontColour"
+            android:textSize="20sp"
+            android:fontFamily="@font/roboto_light"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="100dp"
+        android:gravity="center_vertical|center_horizontal"
+        android:orientation="horizontal">
+
+    <TextView
+        android:id="@+id/daily"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:text="@string/daily"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textColor="@color/fontColour"
+        android:textSize="20sp"
+        android:fontFamily="@font/roboto_light"/>
+
+    <TextView
+        android:id="@+id/daily_btc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:text="@string/daily_btc"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textColor="@color/fontColour"
+        android:textSize="20sp"
+        android:fontFamily="@font/roboto_light"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="60dp"
+        android:gravity="center_vertical|center_horizontal"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/hourly"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:text="@string/hourly"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="@color/fontColour"
+            android:textSize="20sp"
+            android:fontFamily="@font/roboto_light"/>
+
+        <TextView
+            android:id="@+id/hourly_btc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:text="@string/hourly_btc"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="@color/fontColour"
+            android:textSize="20sp"
+            android:fontFamily="@font/roboto_light"/>
+
+    </LinearLayout>
+
+
+</RelativeLayout>

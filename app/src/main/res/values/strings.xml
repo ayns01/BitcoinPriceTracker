@@ -1,0 +1,32 @@
+<resources>
+    <string name="app_name">BitcoinPriceTracker</string>
+    <string name="criteriaBtc">1BTC</string>
+    <string name="btc">304.74</string>
+    <string name="label_error_text">Error</string>
+    <string name="base">Base Currency</string>
+    <string name="imageview_desc">Bitcoin Logo</string>
+    <string name="weekly">week</string>
+    <string name="monthly">month</string>
+    <string name="daily">day</string>
+    <string name="hourly">hour</string>
+    <string name="weekly_btc">304.74</string>
+    <string name="monthly_btc">304.74</string>
+    <string name="daily_btc">304.74</string>
+    <string name="hourly_btc">304.74</string>
+
+    <string-array name="currency_array">
+        <item>AUD</item>
+        <item>BRL</item>
+        <item>CAD</item>
+        <item>CNY</item>
+        <item>EUR</item>
+        <item>GBP</item>
+        <item>HKD</item>
+        <item>JPY</item>
+        <item>PLN</item>
+        <item>RUB</item>
+        <item>SEK</item>
+        <item>USD</item>
+        <item>ZAR</item>
+    </string-array>
+</resources>
