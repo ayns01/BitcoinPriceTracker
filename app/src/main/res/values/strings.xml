@@ -5,14 +5,18 @@
     <string name="label_error_text">Error</string>
     <string name="base">Base Currency</string>
     <string name="imageview_desc">Bitcoin Logo</string>
-    <string name="weekly">week</string>
-    <string name="monthly">month</string>
-    <string name="daily">day</string>
-    <string name="hourly">hour</string>
-    <string name="weekly_btc">304.74</string>
-    <string name="monthly_btc">304.74</string>
-    <string name="daily_btc">304.74</string>
-    <string name="hourly_btc">304.74</string>
+    <string name="btc_price">304.74</string>
+    <string name="eth_price">304.74</string>
+    <string name="xrp_price">304.74</string>
+    <string name="bch_price">304.74</string>
+    <!--<string name="weekly">week</string>-->
+    <!--<string name="monthly">month</string>-->
+    <!--<string name="daily">day</string>-->
+    <!--<string name="hourly">hour</string>-->
+    <!--<string name="weekly_btc">304.74</string>-->
+    <!--<string name="monthly_btc">304.74</string>-->
+    <!--<string name="daily_btc">304.74</string>-->
+    <!--<string name="hourly_btc">304.74</string>-->
 
     <string-array name="currency_array">
         <item>AUD</item>

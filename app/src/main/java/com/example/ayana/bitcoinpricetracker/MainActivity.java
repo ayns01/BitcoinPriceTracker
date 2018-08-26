@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -20,6 +21,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 
 import cz.msebera.android.httpclient.Header;
@@ -27,12 +29,23 @@ import cz.msebera.android.httpclient.Header;
 public class MainActivity extends AppCompatActivity {
 
     private final String BASE_URL = "https://apiv2.bitcoinaverage.com/indices/global/ticker/BTC";
+    private final String BASE_URL_ETH = "https://apiv2.bitcoinaverage.com/indices/global/ticker/ETH";
+    private final String BASE_URL_XRP = "https://apiv2.bitcoinaverage.com/indices/global/ticker/XRP";
+    private final String BASE_URL_BCH = "https://apiv2.bitcoinaverage.com/indices/global/ticker/BCH";
+
 
     TextView mPriceTextView;
     TextView mWeekPriceTextView;
     TextView mMonthlyPriceTextView;
     TextView mDailyPriceTextView;
-    TextView mHourlyPriceTextView;
+    TextView mBtcHourlyPriceTextView;
+    TextView mEthHourlyPriceTextView;
+    TextView mXrpHourlyPriceTextView;
+    TextView mBchHourlyPriceTextView;
+    TextView mBtcPriceView;
+    TextView mEthPriceView;
+    TextView mXrpPriceView;
+    TextView mBchPriceView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,10 +54,17 @@ public class MainActivity extends AppCompatActivity {
 
         mPriceTextView = findViewById(R.id.priceLabel);
         Spinner spinner = findViewById(R.id.currency_spinner);
-        mWeekPriceTextView = findViewById(R.id.weekly_btc);
-        mMonthlyPriceTextView = findViewById(R.id.monthly_btc);
-        mDailyPriceTextView = findViewById(R.id.daily_btc);
-        mHourlyPriceTextView = findViewById(R.id.hourly_btc);
+//        mWeekPriceTextView = findViewById(R.id.weekly_btc);
+//        mMonthlyPriceTextView = findViewById(R.id.monthly_btc);
+//        mDailyPriceTextView = findViewById(R.id.daily_btc);
+        mBtcHourlyPriceTextView = findViewById(R.id.btc_hour_price);
+        mEthHourlyPriceTextView = findViewById(R.id.eth_hour_price);
+        mXrpHourlyPriceTextView = findViewById(R.id.xrp_hour_price);
+        mBchHourlyPriceTextView = findViewById(R.id.bch_hour_price);
+        mBtcPriceView = findViewById(R.id.btc_price);
+        mEthPriceView = findViewById(R.id.eth_price);
+        mXrpPriceView = findViewById(R.id.xrp_price);
+        mBchPriceView = findViewById(R.id.bch_price);
 
         // Create an ArrayAdapter using the string array and a default spinner layout
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
@@ -56,26 +76,53 @@ public class MainActivity extends AppCompatActivity {
         // Apply the adapter to the spinner
         spinner.setAdapter(adapter);
 
-        //ユーザーの選択への応答
+        // レイアウトからリストビューを取得
+        ListView listView = findViewById(R.id.listview);
+
+        //リストビューに表示する要素の設定
+        ArrayList<ListItem> listItems = new ArrayList<>();
+
+        Bitmap bmpBtc = BitmapFactory.decodeResource(getResources(), R.drawable.btc);
+        Bitmap bmpEth = BitmapFactory.decodeResource(getResources(), R.drawable.eth);
+        Bitmap bmpXrp = BitmapFactory.decodeResource(getResources(), R.drawable.xrp);
+        Bitmap bmpBch = BitmapFactory.decodeResource(getResources(), R.drawable.bch);
+
+        listItems.add(new ListItem(bmpBtc, "BTC", "Bitcoin"));
+        listItems.add(new ListItem(bmpEth, "ETH", "Ethereum"));
+        listItems.add(new ListItem(bmpXrp, "XRP", "Ripple"));
+        listItems.add(new ListItem(bmpBch, "BCH","Bitcoin Cash"));
+
+        // 出力結果をビューに表示
+        ListAdapter adapter1 = new ListAdapter(this, R.layout.brandlist_item, listItems);
+        listView.setAdapter(adapter1);
+
+        //ユーザーのスピナーからの選択への応答
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 Log.d("Bitcoin", ""+adapterView.getItemAtPosition(i));
+                String country = (String) adapterView.getItemAtPosition(i);
                 String finalUrl = BASE_URL + adapterView.getItemAtPosition(i);
-                letsDoNetworking(finalUrl);
+                String finalUrlEth = BASE_URL_ETH + adapterView.getItemAtPosition(i);
+                String finalUrlXrp = BASE_URL_XRP + adapterView.getItemAtPosition(i);
+                String finalUrlBch = BASE_URL_BCH + adapterView.getItemAtPosition(i);
+
+                //letsDoNetworking(finalUrl, finalUrlEth, finalUrlXrp, finalUrlBch);
+                doNetworking(country, finalUrl, finalUrlEth, finalUrlXrp, finalUrlBch);
+
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
                 Log.d("Bitcoin","Nothing selected");
-
             }
         });
     }
 
-    private void letsDoNetworking(String url) {
+    private void doNetworking(final String country, String urlBtc, String urlEth, String urlXrp, String urlBch) {
         AsyncHttpClient client = new AsyncHttpClient();
-        client.get(url, new JsonHttpResponseHandler() {
+
+        client.get(urlBtc, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 // If the response is JSONObject instead of expected JSONArray
@@ -83,43 +130,78 @@ public class MainActivity extends AppCompatActivity {
                 try {
                     String price = response.getString("last");
                     mPriceTextView.setText(price);
-
-//                    JSONObject changes = response.getJSONObject("changes");
-//                    JSONArray priceArray = (JSONArray) changes.get("price");
-//                    Log.d("Bitcoin", "priceArray" + priceArray.length());
-//                    for (int i = 0; i < priceArray.length(); i++) {
-//                        JSONObject childObject = priceArray.getJSONObject(i);
-//                        String week = childObject.getString("week");
-//                        mWeekPriceTextView.setText(week);
-//                        Log.d("Bitcoin", "week" + week);
-//                    }
-
-                    String week = response.getJSONObject("changes").getJSONObject("price").getString("week"); //JSONObjectでで親keyのJSON取得して、その中の子keyの値を取得。
-                    mWeekPriceTextView.setText(week);
-                    Log.d("Bitcoin", "week" + week);
-
-                    String month = response.getJSONObject("changes").getJSONObject("price").getString("month"); //JSONObjectでで親keyのJSON取得して、その中の子keyの値を取得。
-                    mMonthlyPriceTextView.setText(month);
-                    Log.d("Bitcoin", "month" + month);
-
-                    String day = response.getJSONObject("changes").getJSONObject("price").getString("day"); //JSONObjectでで親keyのJSON取得して、その中の子keyの値を取得。
-                    mDailyPriceTextView.setText(day);
-                    Log.d("Bitcoin", "day" + day);
-
-                    String hour = response.getJSONObject("changes").getJSONObject("price").getString("hour"); //JSONObjectでで親keyのJSON取得して、その中の子keyの値を取得。
-                    mHourlyPriceTextView.setText(hour);
-                    Log.d("Bitcoin", "hour" + hour);
+                    mBtcPriceView.setText(price + " " + country);
+                    String hour = response.getJSONObject("changes").getJSONObject("price").getString("hour");
+                    mBtcHourlyPriceTextView.setText(hour);
 
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
             }
-
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable e, JSONObject response) {
                 // called when response HTTP status is "4XX" (eg. 401, 403, 404)
                 Log.d("Bitcoin", "Request fail! Status code: " + statusCode);
-                Log.d("Bitcoin", "Fail response: " + response);
+                Log.e("ERROR", e.toString());
+            }
+        });
+
+        client.get(urlEth, new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                Log.d("Bitcoin", "JSON ETH" + response.toString());
+                try {
+                    String price = response.getString("last");
+                    mEthPriceView.setText(price + " " + country);
+                    String hour = response.getJSONObject("changes").getJSONObject("price").getString("hour");
+                    mEthHourlyPriceTextView.setText(hour);
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable e, JSONObject response) {
+                Log.e("ERROR", e.toString());
+            }
+        });
+
+        client.get(urlXrp, new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                Log.d("Bitcoin", "JSON XRP" + response.toString());
+                try {
+                    String price = response.getString("last");
+                    mXrpPriceView.setText(price + " " + country);
+                    String hour = response.getJSONObject("changes").getJSONObject("price").getString("hour");
+                    mXrpHourlyPriceTextView.setText(hour);
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable e, JSONObject response) {
+                Log.e("ERROR", e.toString());
+            }
+        });
+
+        client.get(urlBch, new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                Log.d("Bitcoin", "JSON BCH" + response.toString());
+                try {
+                    String price = response.getString("last");
+                    mBchPriceView.setText(price + " " + country);
+                    String hour = response.getJSONObject("changes").getJSONObject("price").getString("hour");
+                    mBchHourlyPriceTextView.setText(hour);
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable e, JSONObject response) {
                 Log.e("ERROR", e.toString());
             }
         });
