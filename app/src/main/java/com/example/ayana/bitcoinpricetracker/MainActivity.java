@@ -54,9 +54,6 @@ public class MainActivity extends AppCompatActivity {
 
         mPriceTextView = findViewById(R.id.priceLabel);
         Spinner spinner = findViewById(R.id.currency_spinner);
-//        mWeekPriceTextView = findViewById(R.id.weekly_btc);
-//        mMonthlyPriceTextView = findViewById(R.id.monthly_btc);
-//        mDailyPriceTextView = findViewById(R.id.daily_btc);
         mBtcHourlyPriceTextView = findViewById(R.id.btc_hour_price);
         mEthHourlyPriceTextView = findViewById(R.id.eth_hour_price);
         mXrpHourlyPriceTextView = findViewById(R.id.xrp_hour_price);
@@ -106,9 +103,11 @@ public class MainActivity extends AppCompatActivity {
                 String finalUrlEth = BASE_URL_ETH + adapterView.getItemAtPosition(i);
                 String finalUrlXrp = BASE_URL_XRP + adapterView.getItemAtPosition(i);
                 String finalUrlBch = BASE_URL_BCH + adapterView.getItemAtPosition(i);
-
-                //letsDoNetworking(finalUrl, finalUrlEth, finalUrlXrp, finalUrlBch);
-                doNetworking(country, finalUrl, finalUrlEth, finalUrlXrp, finalUrlBch);
+//                doNetworking(country, finalUrl, finalUrlEth, finalUrlXrp, finalUrlBch);
+                newDoNetworking("Bitcoin", country, finalUrl, mBtcPriceView, mBtcHourlyPriceTextView);
+                newDoNetworking("Eth", country, finalUrlEth, mEthPriceView, mEthHourlyPriceTextView);
+                newDoNetworking("Xrp", country, finalUrlXrp, mXrpPriceView, mXrpHourlyPriceTextView);
+                newDoNetworking("Bch", country, finalUrlBch, mBchPriceView, mBchHourlyPriceTextView);
 
             }
 
@@ -119,20 +118,20 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void doNetworking(final String country, String urlBtc, String urlEth, String urlXrp, String urlBch) {
+    private void newDoNetworking(final String tag, final String country, String url, final TextView priceView, final TextView hourlyPriceTextView){
         AsyncHttpClient client = new AsyncHttpClient();
 
-        client.get(urlBtc, new JsonHttpResponseHandler() {
+        client.get(url, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 // If the response is JSONObject instead of expected JSONArray
-                Log.d("Bitcoin", "JSON" + response.toString());
+                Log.d(tag, "JSON" + response.toString());
                 try {
                     String price = response.getString("last");
-                    mPriceTextView.setText(price);
-                    mBtcPriceView.setText(price + " " + country);
+                    //mPriceTextView.setText(price);
+                    priceView.setText(price + " " + country);
                     String hour = response.getJSONObject("changes").getJSONObject("price").getString("hour");
-                    mBtcHourlyPriceTextView.setText(hour);
+                    hourlyPriceTextView.setText(hour);
 
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -141,69 +140,97 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable e, JSONObject response) {
                 // called when response HTTP status is "4XX" (eg. 401, 403, 404)
-                Log.d("Bitcoin", "Request fail! Status code: " + statusCode);
-                Log.e("ERROR", e.toString());
-            }
-        });
-
-        client.get(urlEth, new JsonHttpResponseHandler() {
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                Log.d("Bitcoin", "JSON ETH" + response.toString());
-                try {
-                    String price = response.getString("last");
-                    mEthPriceView.setText(price + " " + country);
-                    String hour = response.getJSONObject("changes").getJSONObject("price").getString("hour");
-                    mEthHourlyPriceTextView.setText(hour);
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-            @Override
-            public void onFailure(int statusCode, Header[] headers, Throwable e, JSONObject response) {
-                Log.e("ERROR", e.toString());
-            }
-        });
-
-        client.get(urlXrp, new JsonHttpResponseHandler() {
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                Log.d("Bitcoin", "JSON XRP" + response.toString());
-                try {
-                    String price = response.getString("last");
-                    mXrpPriceView.setText(price + " " + country);
-                    String hour = response.getJSONObject("changes").getJSONObject("price").getString("hour");
-                    mXrpHourlyPriceTextView.setText(hour);
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-            @Override
-            public void onFailure(int statusCode, Header[] headers, Throwable e, JSONObject response) {
-                Log.e("ERROR", e.toString());
-            }
-        });
-
-        client.get(urlBch, new JsonHttpResponseHandler() {
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                Log.d("Bitcoin", "JSON BCH" + response.toString());
-                try {
-                    String price = response.getString("last");
-                    mBchPriceView.setText(price + " " + country);
-                    String hour = response.getJSONObject("changes").getJSONObject("price").getString("hour");
-                    mBchHourlyPriceTextView.setText(hour);
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-            @Override
-            public void onFailure(int statusCode, Header[] headers, Throwable e, JSONObject response) {
+                Log.d(tag, "Request fail! Status code: " + statusCode);
                 Log.e("ERROR", e.toString());
             }
         });
     }
+
+//    private void doNetworking(final String country, String urlBtc, String urlEth, String urlXrp, String urlBch) {
+//        AsyncHttpClient client = new AsyncHttpClient();
+//
+//        client.get(urlBtc, new JsonHttpResponseHandler() {
+//            @Override
+//            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+//                // If the response is JSONObject instead of expected JSONArray
+//                Log.d("Bitcoin", "JSON" + response.toString());
+//                try {
+//                    String price = response.getString("last");
+//                    //mPriceTextView.setText(price);
+//                    mBtcPriceView.setText(price + " " + country);
+//                    String hour = response.getJSONObject("changes").getJSONObject("price").getString("hour");
+//                    mBtcHourlyPriceTextView.setText(hour);
+//
+//                } catch (JSONException e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//            @Override
+//            public void onFailure(int statusCode, Header[] headers, Throwable e, JSONObject response) {
+//                // called when response HTTP status is "4XX" (eg. 401, 403, 404)
+//                Log.d("Bitcoin", "Request fail! Status code: " + statusCode);
+//                Log.e("ERROR", e.toString());
+//            }
+//        });
+//
+//        client.get(urlEth, new JsonHttpResponseHandler() {
+//            @Override
+//            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+//                Log.d("Bitcoin", "JSON ETH" + response.toString());
+//                try {
+//                    String price = response.getString("last");
+//                    mEthPriceView.setText(price + " " + country);
+//                    String hour = response.getJSONObject("changes").getJSONObject("price").getString("hour");
+//                    mEthHourlyPriceTextView.setText(hour);
+//
+//                } catch (JSONException e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//            @Override
+//            public void onFailure(int statusCode, Header[] headers, Throwable e, JSONObject response) {
+//                Log.e("ERROR", e.toString());
+//            }
+//        });
+//
+//        client.get(urlXrp, new JsonHttpResponseHandler() {
+//            @Override
+//            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+//                Log.d("Bitcoin", "JSON XRP" + response.toString());
+//                try {
+//                    String price = response.getString("last");
+//                    mXrpPriceView.setText(price + " " + country);
+//                    String hour = response.getJSONObject("changes").getJSONObject("price").getString("hour");
+//                    mXrpHourlyPriceTextView.setText(hour);
+//
+//                } catch (JSONException e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//            @Override
+//            public void onFailure(int statusCode, Header[] headers, Throwable e, JSONObject response) {
+//                Log.e("ERROR", e.toString());
+//            }
+//        });
+//
+//        client.get(urlBch, new JsonHttpResponseHandler() {
+//            @Override
+//            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+//                Log.d("Bitcoin", "JSON BCH" + response.toString());
+//                try {
+//                    String price = response.getString("last");
+//                    mBchPriceView.setText(price + " " + country);
+//                    String hour = response.getJSONObject("changes").getJSONObject("price").getString("hour");
+//                    mBchHourlyPriceTextView.setText(hour);
+//
+//                } catch (JSONException e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//            @Override
+//            public void onFailure(int statusCode, Header[] headers, Throwable e, JSONObject response) {
+//                Log.e("ERROR", e.toString());
+//            }
+//        });
+//    }
 }
