@@ -1,8 +1,12 @@
 # BitcoinPriceTracker
 
 I made Bitcoin price tracker app for practice.<br>
-It shows 1BTC price and diff of week, month, day and hour for some country.<br>
-It is used Bitcoin API(https://apiv2.bitcoinaverage.com/#ticker-data-per-symbol).<br>
+It shows the price of some kind of cryptocurrencies.<br>
+I used Bitcoin API(https://apiv2.bitcoinaverage.com/#ticker-data-per-symbol).<br>
 
-![Imgur](https://i.imgur.com/0GFRbaL.png?4)
-![Imgur](https://i.imgur.com/zNyhCtl.png?1)
+## FEATURES
+👀You can see some kind of cryptocurrencies such as Bitcoin (BTC), Bitcoin Cash (BCH), Ethereum (ETH), Ripple (XRP).
+👍You can select a country which you want to see.
+
+![Imgur](https://i.imgur.com/ICrjrj5.png?1)
+![Imgur](https://i.imgur.com/6MAMc5n.png?1)
